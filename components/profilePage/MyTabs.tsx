@@ -71,7 +71,7 @@ const MyTabs = ({ userInfo, storageCurrentUser }: MyTabsProp) => {
           </>
         )}
       </Tab.List>
-      <Tab.Panels className="w-[880px] h-full min-h-[501px] mt-8 mb-[100px] shadow-xl m-auto ">
+      <Tab.Panels className="max-w-[880px] w-full h-full min-h-[501px] mt-8 mb-[100px] shadow-xl m-auto ">
         <MyBookmarkTab
           storageCurrentUser={storageCurrentUser}
           userInfo={userInfo}

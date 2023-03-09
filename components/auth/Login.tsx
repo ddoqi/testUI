@@ -151,7 +151,7 @@ const Login = ({ setStatus, status }: LoginProps) => {
       });
   };
   return (
-    <div className="w-[440px] m-auto">
+    <div className="max-w-[440px] w-full m-auto mt-20">
       <h3 className="text-4xl font-bold text-center">로그인</h3>
       <div className="mt-[40px]">
         <div className="text-center">
@@ -163,7 +163,7 @@ const Login = ({ setStatus, status }: LoginProps) => {
             ref={emailRef}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="register-input w-[420px] h-[40px] mt-[10px]"
+            className="register-input w-[90%] h-[40px] mt-[10px]"
           />
           <h6 className="font-semibold mt-[20px] text-base float-left ml-4">
             비밀번호
@@ -175,7 +175,7 @@ const Login = ({ setStatus, status }: LoginProps) => {
             ref={pwRef}
             value={pw}
             onChange={(e) => setPw(e.target.value)}
-            className="register-input w-[420px] h-[40px] mt-[10px]"
+            className="register-input w-[90%] h-[40px] mt-[10px]"
           />
         </div>
 
@@ -183,7 +183,7 @@ const Login = ({ setStatus, status }: LoginProps) => {
           <button
             type="button"
             onClick={handleLogin}
-            className="bg-brand100 text-white h-[40px]  w-[420px]"
+            className="bg-brand100 text-white h-[40px] w-[90%]"
           >
             로그인
           </button>

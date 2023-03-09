@@ -65,7 +65,7 @@ const MyPage = () => {
   }
 
   return (
-    <div className="min-w-full mx-auto my-0 justify-center">
+    <div className="w-full mx-auto my-0 justify-center">
       <div className="bg-coverBg bg-cover bg-center h-[250px] bg-no-repeat relative">
         <div className="flex justify-center items-center space-x-8 absolute left-[300px] top-[120px] xl:left-[380px] text-white">
           {imgPreview && (
