@@ -15,9 +15,8 @@ export default function Document() {
         />
         <meta property="og:site_name" content="타쿠의 식탁" />
         <meta property="og:locale" content="ko_KR" />
-        <meta property="og:image:width" content="760" />
-        <meta property="og:image:height" content="760" />
-        {/* 베끼는중 */}
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <link
           rel="icon"
           type="image/png"

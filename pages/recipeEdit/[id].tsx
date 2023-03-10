@@ -9,6 +9,7 @@ import { storage } from "@/config/firebase";
 import EditorComponent from "@/components/write/TextEditor";
 import { toast, ToastContainer } from "react-toastify";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import Seo from "../../components/layout/Seo";
 
 interface TitleType {
   title: string;
@@ -230,21 +231,17 @@ const RecipeEditPage = ({
       downloadUrl = await getDownloadURL(response.ref);
       toastAlert("대표 이미지 업데이트 성공~!");
       await setImgLoading("loaded");
-
       setThumbnail(downloadUrl);
     }
   };
 
-  const moveMain = () => {
-    location.href = "/main";
-  };
-
   return (
-    // <div className="bg-white p-10">
-    <div className="xl:w-full sm:w-fit h-full flex flex-col items-center pt-2 mx-auto p-10">
+    <div className="mt-10 w-full h-full max-w-[1180px] flex flex-col items-center pt-2 mx-auto sm:p-10">
+      <Seo title="레시피 수정" />
       <ToastContainer position="top-right" autoClose={1000} />
-      <div className="mt-[75px] rounded-md p-7 container w-[1180px] mx-auto flex justify-center flex-col bg-white">
-        <h3 className="text-4xl font-bold">레시피 수정하기</h3>
+      <div className="mt-[75px] rounded-md p-7 container max-w-4/5 mx-auto flex justify-center flex-col">
+        {/* <div className="mt-[75px] rounded-md p-7 container max-w-[1180px] mx-auto flex justify-center flex-col"> */}
+        <h3 className="sm:text-4xl text-2xl font-bold">레시피 수정하기</h3>
         <hr className="mt-[24px] h-px border-[1.5px] border-brand100"></hr>
 
         <form onSubmit={editPost} className="mt-[40px]">
@@ -252,7 +249,7 @@ const RecipeEditPage = ({
             <b className="text-[21px] font-semibold"> 애니메이션 제목 검색 </b>
             <input
               value={searchTitle}
-              className="p-2 ml-[15px] w-[280px] h-[45px] border border-mono60 rounded-[2px] "
+              className="p-2  sm:ml-[17px] sm:w-[280px] h-[45px] border border-mono60 rounded-[2px] "
               ref={movieTitleRef}
               name="targetTitle"
               type="text"
@@ -261,9 +258,9 @@ const RecipeEditPage = ({
             />
 
             {searchTitle ? (
-              <div className="ml-[5px] rounded-lg w-[450px]  text-center mt-1">
+              <div className="ml-0 sm:ml-[6px] rounded-lg sm:w-[450px]  sm:text-center sm:mt-1">
                 <select
-                  className="ml-[185px] w-[280px] h-[40px] mt-[16px] border border-mono60 rounded-[2px] text-center"
+                  className="sm:ml-[185px] w-[280px] h-[40px] mt-[16px] border border-mono60 rounded-[2px] text-center"
                   onChange={(event) => {
                     selectChangeSetFunc(event, setTargetTitle);
                   }}
@@ -287,12 +284,12 @@ const RecipeEditPage = ({
             )}
           </div>
           <div className="space-y-3 mt-[20px]">
-            <div className="pb-7">
+            <div className="pb-7 flex sm:flex-row flex-col">
               <div className="text-[21px] float-left font-semibold">
                 레시피 제목
               </div>
               <input
-                className="p-2 lg:w-[580px] sm:w-[280px] md:w-[280px] ml-[97px] text-mono70 h-[45px] border border-mono60 rounded-[2px]"
+                className="p-2 lg:w-[580px] sm:w-[280px] md:w-[280px] sm:ml-[97px] text-mono70 h-[45px] border border-mono60 rounded-[2px]"
                 value={foodTitle}
                 ref={foodTitleRef}
                 name="footTitle"
@@ -300,12 +297,12 @@ const RecipeEditPage = ({
                 onChange={(event) => inputChangeSetFunc(event, setFoodTitle)}
               />
             </div>
-            <div className="pb-[40px]">
+            <div className="pb-[40px] flex sm:flex-row flex-col">
               <div className="text-[21px] float-left font-semibold">
                 음식 종류
               </div>
               <select
-                className="p-2 ml-[115px] text-mono70 w-[280px] h-[40px] border border-mono60 rounded-[2px]"
+                className="p-2 sm:ml-[115px] ml-0 text-mono70 sm:w-[280px] h-[40px] border border-mono60 rounded-[2px]"
                 ref={foodCategoryRef}
                 onChange={(event) => {
                   selectChangeSetFunc(event, setFoodCategory);
@@ -324,7 +321,7 @@ const RecipeEditPage = ({
             <div className="pb-[40px]">
               <b className="text-[21px] font-semibold "> 소요시간 </b>
               <select
-                className="p-2 ml-[115px] text-mono70 w-[280px] h-[40px] border border-mono60 rounded-[2px]"
+                className="p-2 sm:ml-[115px] sm:w-[280px] text-mono70 w-full h-[40px] border border-mono60 rounded-[2px]"
                 ref={cookTimeRef}
                 onChange={(event) => {
                   selectChangeSetFunc(event, setSelectCookTime);
@@ -338,7 +335,8 @@ const RecipeEditPage = ({
               </select>
             </div>
             <hr className="h-px my-7 border-[1px] border-mono60"></hr>
-            <div className="flex items-stretch pt-7">
+
+            <div className="flex items-stretch pt-7 sm:flex-row flex-col">
               <div className="text-[21px] font-semibold">주재료</div>
               <input
                 value={ingredient}
@@ -346,7 +344,7 @@ const RecipeEditPage = ({
                 ref={ingredientRef}
                 name="ingredient"
                 onChange={(event) => inputChangeSetFunc(event, setIngredient)}
-                className="pb-[80px] p-2 ml-[135px] w-[580px] h-[117px] border border-mono60 rounded-[2px]"
+                className="pb-[80px] p-2 ml-0 sm:ml-[135px] sm:w-[580px] sm:h-[117px] h-[150px] border border-mono60 rounded-[2px]"
               />
             </div>
           </div>
@@ -355,7 +353,7 @@ const RecipeEditPage = ({
             <div className="text-[21px] pb-[40px] font-semibold">
               레시피 작성
             </div>
-            <div className="w-full h-[538px]">
+            <div className="w-full sm:h-[538px] h-[300px]">
               <EditorComponent
                 editorText={editorText}
                 setEditorText={setEditorText}
@@ -371,11 +369,14 @@ const RecipeEditPage = ({
                 </div>
               </div>
             )}
-            <div className="bg-mono40 h-[210px] mt-[40px]">
-              <div className="mt-[12px] float-right flex items-stretch">
-                <div className="mt-2 text-mono80 text-[16px]">대표 이미지</div>
+
+            <div className="bg-mono40 sm:h-[240px] h-[210px] sm:mt-[42px] mt-[70px]">
+              <div className="mt-[12px] float-right sm:float-right flex items-stretch">
+                <div className="mt-2 text-mono80 sm:text-[16px]">
+                  대표 이미지
+                </div>
                 <label htmlFor="ex_file">
-                  <div className="rounded-[2px] border border-mono60 ml-[20px] text-[16px] text-center pt-1 hover:cursor-pointer w-[100px] h-[35px] bg-mono40 text-mono100">
+                  <div className="p-1 mr-2 rounded-[2px] border border-mono60 ml-[20px] sm:text-[16px] text-center pt-1 hover:cursor-pointer sm:w-[100px] sm:h-[35px] bg-mono40 text-mono100">
                     이미지 선택
                   </div>
                 </label>
@@ -391,11 +392,11 @@ const RecipeEditPage = ({
                   accept="images/*"
                 />
               </div>
-              <div className="ml-[16px] pt-[20px] text-mono100 text-[16px]">
+              <div className="text-[16px] ml-[16px] pt-[20px] text-mono100 ">
                 등록된 대표 이미지
               </div>
               <Image
-                className="ml-[16px] w-[82px] h-[49px] pt-[16px]"
+                className="ml-[16px] w-[82px] h-[49px] sm:w-[120px] sm:h-[80px] sm:pt-[16px]"
                 loader={() => originImgThumbNail}
                 src={originImgThumbNail}
                 width={100}
@@ -439,17 +440,17 @@ const RecipeEditPage = ({
           </div>
           <div className="mt-[40px] float-right">
             <button
-              className="text-white w-[180px] h-[48px] bg-brand100 border border-mono60"
+              className="text-white w-[80px] sm:w-[180px] sm:h-[48px] bg-brand100 border border-mono60"
               type="submit"
             >
-              완료
+              등록
             </button>
             <button
               onClick={() => {
-                moveMain();
+                location.href = "/main";
               }}
               type="button"
-              className="ml-[12px] w-[180px] h-[48px] border border-mono60"
+              className="ml-[12px] w-[80px] sm:w-[180px] sm:h-[48px] border border-mono60"
             >
               취소
             </button>

@@ -18,6 +18,7 @@ import Comments from "../../components/communityPage/Comments";
 import { toast } from "react-toastify";
 import { AppProps } from "next/app";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import Seo from "../../components/layout/Seo";
 
 interface propsType extends AppProps {
   targetWholeData: communityPostType;
@@ -109,8 +110,12 @@ export default function DetailPage(props: propsType) {
   };
 
   return (
-    <div className="xl:w-full sm:w-fit h-full flex flex-col items-center pt-2 mx-auto p-10">
-      <div className="pt-[75px] rounded-md p-7 container w-[780px] mx-auto flex justify-center flex-col bg-white">
+    <div className="bg-[#FFF6EA] ">
+      <Seo title="커뮤니티" />
+      <div
+        className="pt-[75px] rounded-md p-7 container w-[780px] mx-auto flex justify-center flex-col bg-[#fffdfa]
+      ]"
+      >
         <h3 className="text-4xl pt-[24px]">
           {detailPageWholeData.category}게시판
         </h3>
@@ -118,7 +123,7 @@ export default function DetailPage(props: propsType) {
           <button
             onClick={moveMain}
             type="button"
-            className="w-[70px] h-[30px] bg-brand100 text-white sm:h-[35px] sm:w-[100px]"
+            className="bg-brand100 text-white h-[35px]  w-[100px]"
           >
             목록보기
           </button>
