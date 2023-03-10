@@ -9,22 +9,33 @@ import {
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import baseImg from "../../public/images/test1.png";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import useGetCommunityComment from "@/hooks/useGetCommunityComment";
-import { toastAlert } from "../toastify/Alert";
-import Link from "next/link";
 
-const Comments = ({ boardId, uid }) => {
+const Comments = ({ boardId, uid }: { boardId: string; uid: string }) => {
   const [editComment, setEditComment] = useState("");
-  const [targetIndex, setTargetIndex] = useState("");
-  const [targetIsEdit, setTargetIsEdit] = useState("");
-  const commentRef = useRef("");
+  const [targetIndex, setTargetIndex] = useState<number | null>();
+  const [targetIsEdit, setTargetIsEdit] = useState<number | null>();
+  const commentRef = useRef<HTMLInputElement>(null);
 
   const { boardComments, comment, setComment, setReloadState } =
     useGetCommunityComment(boardId);
 
+  const toastAlert = (alertText: string) => {
+    toast(`${alertText}`, {
+      position: "top-right",
+      autoClose: 1300,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
   // 댓글 add
-  const addComment = async (event) => {
+  const addComment = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     let today = new Date();
     let year = today.getFullYear();
@@ -51,7 +62,7 @@ const Comments = ({ boardId, uid }) => {
   };
 
   // 댓글 delete
-  const deleteComment = async (id) => {
+  const deleteComment = async (id: string) => {
     const userConfirm = window.confirm("해당 댓글을 정말 삭제하시겠습니까?");
     if (userConfirm) {
       try {
@@ -64,19 +75,25 @@ const Comments = ({ boardId, uid }) => {
     }
   };
 
-  const commentEdit = async (id, index, event) => {
+  const commentEdit = async (
+    id: string,
+    index: number,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     setTargetIndex(index);
     setTargetIsEdit(index);
     const postRef = doc(dbService, "comments", id);
-    if (event.target.innerText == "완료") {
+    const buttonEventTarget: HTMLButtonElement = event.currentTarget;
+
+    if (buttonEventTarget.innerText == "완료") {
       if (editComment) {
         await updateDoc(postRef, {
           comment: editComment,
         });
         setReloadState("댓글 수정완료");
         toastAlert("🎉 댓글 수정 완료!");
-        setTargetIsEdit(!index);
-        setTargetIndex(!index);
+        setTargetIsEdit(null);
+        setTargetIndex(null);
       }
     }
   };
@@ -86,14 +103,14 @@ const Comments = ({ boardId, uid }) => {
       <div>
         <ToastContainer position="top-right" autoClose={1000} />
         <div>
-          <div className="flex space-x-2 items-center">
-            <h3 className="sm:text-xl text-lg">댓글</h3>
-            <b className="text-[#FF0000]">{boardComments.length}</b>
-          </div>
+          <h3 className="text-[21px]">
+            댓글
+            <b className="text-[#FF0000]"> {boardComments.length}</b>
+          </h3>
 
           <div>
             <div>
-              {boardComments?.map((item, index) => {
+              {boardComments?.map((item: any, index: number) => {
                 return (
                   <div key={index}>
                     {/* targetIndex === index : 수정 input열리는 부분 */}
@@ -101,7 +118,7 @@ const Comments = ({ boardId, uid }) => {
                       <div>
                         {item.commentProfile == "null" ? (
                           <Image
-                            className="w-[40px] h-[40px] object-cover object-center float-left m-2 rounded-md"
+                            className="w-[40px] h-[40px] object-cover object-center float-left m-2"
                             src={baseImg}
                             width={780}
                             height={270}
@@ -109,7 +126,7 @@ const Comments = ({ boardId, uid }) => {
                           />
                         ) : (
                           <Image
-                            className="w-[40px] h-[40px] object-cover object-center float-left m-2 rounded-md"
+                            className="w-[40px] h-[40px] object-cover object-center float-left m-2"
                             src={item.commentProfile}
                             loader={({ src }) => src}
                             width={780}
@@ -135,7 +152,7 @@ const Comments = ({ boardId, uid }) => {
                       <div>
                         {item.commentProfile === "null" ? (
                           <Image
-                            className="w-[40px] h-[40px] object-cover object-center float-left m-2 rounded-md"
+                            className="w-[40px] h-[40px] object-cover object-center float-left m-2"
                             src={baseImg}
                             width={780}
                             height={270}
@@ -143,7 +160,7 @@ const Comments = ({ boardId, uid }) => {
                           />
                         ) : (
                           <Image
-                            className="w-[40px] h-[40px] object-cover object-center float-left m-2 rounded-md"
+                            className="w-[40px] h-[40px] object-cover object-center float-left m-2"
                             src={item.commentProfile}
                             loader={({ src }) => src}
                             width={780}
@@ -197,39 +214,40 @@ const Comments = ({ boardId, uid }) => {
           </div>
         </div>
         {uid === "guest" ? (
-          <div className="w-full flex text-center mt-5 justify-evenly sm:space-x-3">
+          <div className="w-full text-center mt-5">
             <input
               disabled
-              // className="h-[90px] w-5/6 border-[2px] border-brand100"
-              className="border-mono70 border rounded-[2px] sm:h-[90px] h-[40px] w-[80%] p-3 focus:outline-none placeholder:text-xs sm:placeholder:text-base"
+              className="h-[90px] w-5/6 border-[2px] border-brand100"
               type="text"
               placeholder=" 로그인 후 댓글 작성해주세요."
             />
-            <Link
-              className="flex justify-center items-center rounded-sm text-center text-white border-none bg-brand100 sm:h-[90px] h-[40px] sm:w-[20%] cursor-pointer focus:outline-none ring-offset-2 hover:ring-2 ring-brand100"
-              href="/login"
+            <button
+              className="ml-2 text-white border-none bg-brand100 w-[80px] h-[90px] lg:w-1/8 md:w-1/8 sm:1/8"
+              type="button"
+              style={{ border: "1px solid black" }}
             >
-              <span className="px-2 text-sm sm:text-base">로그인</span>
-            </Link>
+              로그인
+            </button>
           </div>
         ) : (
-          <div className="w-full flex text-center mt-5 justify-evenly sm:space-x-3">
+          <div className="w-full text-center mt-5">
             <input
               ref={commentRef}
-              className="border-mono70 border rounded-[2px] sm:h-[90px] h-[40px] w-[80%] p-3 focus:outline-none placeholder:text-xs sm:placeholder:text-base"
-              placeholder="타쿠의식탁 커뮤니티가 훈훈해지는 댓글을 남겨주세요."
+              className="border-mono80 border rounded-[2px] h-[90px] w-5/6 p-3"
+              placeholder=" 타쿠의식탁 커뮤니티가 훈훈해지는 댓글을 남겨주세요."
               type="text"
               value={comment}
               onChange={(e) => {
                 setComment(e.target.value);
               }}
             />
-            <div
-              className="flex justify-center items-center rounded-sm text-center text-white border-none bg-brand100 sm:h-[90px] h-[40px] sm:w-[20%] cursor-pointer focus:outline-none ring-offset-2 hover:ring-2 ring-brand100"
+            <button
+              className="rounded-[2px] ml-2 text-white border-none bg-brand100 w-[80px] h-[90px] lg:w-1/8 md:w-1/8 sm:1/8"
+              type="button"
               onClick={addComment}
             >
-              <span className="px-2 text-sm sm:text-base">등록</span>
-            </div>
+              등록
+            </button>
           </div>
         )}
       </div>
